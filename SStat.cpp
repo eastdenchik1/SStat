@@ -143,15 +143,19 @@ void SStat::GetConrete(char * mode){
         }
         CASE("-c%m"):{
             char resolved_path[PATH_MAX]; 
-            realpath(_FileName, resolved_path); 
-            string path;
-            path.push_back(resolved_path[0]);
-            path.erase(0,1);
-            // cout << path;
-            vector<string> Words = split(path, '/');
-            // for (vector<string>::iterator it = Words.begin() ; it!=Words.end() ; ++it)
-            //     cout<<*it;
-            cout << endl;
+            char *real_path = realpath(_FileName, resolved_path); 
+            vector<string> Words = split(real_path, '/');
+            cout << "Точка монтирования: ";
+            SWITCH(Words[1]){
+                CASE("home"):{
+                    cout << "/" << endl;
+                }
+                CASE("media"):{
+                    cout << "/" << Words[1] << "/" << Words[2] << "/" << Words[3] << endl;
+                }
+            }
+            break;
+
         }
         CASE("-c%n"):{
 			printf("%s \n",_FileName);
